@@ -9,6 +9,7 @@ import common._
 object Huffman {
 
   def main(args: Array[String]): Unit = {
+    println(times("AAABBC".toList))
     val sampleTree:CodeTree = createCodeTree("AAABBC".toList)
     println(sampleTree)
     val encodedTree = encode(sampleTree)("AAABBC".toList)
@@ -86,20 +87,11 @@ object Huffman {
    *       println("integer is  : "+ theInt)
    *   }
    */
-    def times(chars: List[Char]): List[(Char, Int)] = {
-      var charList: List[Char] = List()
-      var pairList: List[(Char, Int)] = List()
-      chars.foreach(x => {
-        if(!charList.contains(x)){
-          pairList = pairList :+ (x, timesEach(x, chars))
-          charList = charList :+ x
-        }
-      })
-      def timesEach(char: Char, chars: List[Char]): Int = chars match{
-        case head :: tail => if(head == char) 1 + timesEach(char, tail) else 0 + timesEach(char, tail)
-        case Nil => 0
-      }
-      pairList
+    def times(chars: List[Char]): List[(Char, Int)] = chars match{
+      case List() => List()
+      case List(x) => List((x, 1))
+      case h :: _ => val filteredChars: List[Char] = chars.filter(x => x == h)
+        List((h, filteredChars.length)) ++ times(chars.filter(x => x != h))
     }
   
   /**
