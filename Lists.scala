@@ -61,4 +61,15 @@ object Lists {
         }
       }
     }
+
+    def factorial(x: Int) = {
+      def iterator(acc: => Int, n: Int):Int = {
+        if(n-1 == 0){
+          acc
+        } else {
+          iterator(acc * (n-1), n-1)
+        }
+      }
+      iterator(x, x)
+    }
   }
