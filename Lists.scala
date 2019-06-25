@@ -1,5 +1,5 @@
 package example
-import scala.util.control.Breaks._
+
 
 object Lists {
 
@@ -24,12 +24,8 @@ object Lists {
    * @return The sum of all elements in `xs`
    */
     def sum(xs: List[Int]): Int = xs match {
-      case Nil => 0
-      case head :: tail => {
-        println(head)
-        println(tail)
-        head + sum(tail)
-      }
+      case List() => 0
+      case x :: tail => x + sum(tail)
     }
   
   /**
@@ -45,31 +41,11 @@ object Lists {
    * @return The largest element in `xs`
    * @throws java.util.NoSuchElementException if `xs` is an empty list
    */
-    def max(xs: List[Int]): Int = xs match{
-      case Nil => throw new java.util.NoSuchElementException
-      case head :: tail => {
-        var temMaior:Boolean = false
-        for(n <- tail){
-          if(n > head){
-            temMaior = true
-          }
-        }
-        if(temMaior){
-          max(tail)
-        } else {
-          head
-        }
+    def max(xs: List[Int]): Int = {
+      def iterator(list: List[Int], largest:Int):Int = list match {
+        case List() => largest
+        case x :: tail => if(x > largest) iterator(tail, x) else iterator(tail, largest)
       }
-    }
-
-    def factorial(x: Int) = {
-      def iterator(acc: => Int, n: Int):Int = {
-        if(n-1 == 0){
-          acc
-        } else {
-          iterator(acc * (n-1), n-1)
-        }
-      }
-      iterator(x, x)
+      iterator(xs, 0)
     }
   }
